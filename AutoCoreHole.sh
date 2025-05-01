@@ -2,7 +2,7 @@
 # Could also be tcsh
 
 # Created Mar 3, 2025
-# Last Edit: Mar 12, 2025
+# Last Edit: May 1, 2025
 # Cody Somers, cas003@usask.ca
 
 ################ Start of User Parameters ####################
@@ -13,8 +13,8 @@ session_name="YaBoi"
 # Specify the atom number (inequivalent sites) that you want to perform a calculation on
 # Put range of values in here. So {2..10} gives atoms 2,3,4,5,6,7,8,9,10
 # Can also specify specific atoms, (2 4 64) separated by a single space
-#atoms_to_replace=({0..5})
-atoms_to_replace=(1 41 56)
+atoms_to_replace=({1..5})
+#atoms_to_replace=(1 41 56)
 
 # Specify the edited orbital for the core hole that you desire
 replace_core_hole="1,-1,1               ( N,KAPPA,OCCUP)" # Try to keep all the spaces intact
@@ -118,6 +118,8 @@ edit_structureFile () {
       fi
 
       # Put the required info from the original position into the end of the file
+      multiplicity=1 # This is the new multiplicity for the core hole
+      replace_multiplicity="          MULT= $multiplicity          ISPLIT= 8"
       echo "$replace_multiplicity" >> "$structureFile"
       temp_info=$(awk  "NR==$((lineNum)) {print; exit}" "$structureFile") # Atom info
       echo "$temp_info" >> "$structureFile"
